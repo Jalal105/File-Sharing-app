@@ -9,10 +9,11 @@ export const uploadImage = async (request, response) => {
         path: request.file.path,
         name: request.file.originalname,
     }
-    
+
     try {
         const file = await File.create(fileObj);
-        response.status(200).json({ path: `http://localhost:${process.env.PORT}/file/${file._id}`});
+        const baseUrl = process.env.BASE_URL || `http://localhost:${process.env.PORT}`;
+        response.status(200).json({ path: `${baseUrl}/file/${file._id}`});
     } catch (error) {
         console.error(error.message);
         response.status(500).json({ error: error.message });
